@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{58FD0FF4-7733-43A8-A1EF-CE7A386D1BAB}</ProjectGuid>
+    <ProjectGuid>{1441FF13-05DD-4511-BE0B-E10BB6A67CF2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataSetDumper</RootNamespace>
-    <AssemblyName>DataSetDumper</AssemblyName>
+    <RootNamespace>DebugUtilities</RootNamespace>
+    <AssemblyName>HamsterLabsDebugUtilities</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

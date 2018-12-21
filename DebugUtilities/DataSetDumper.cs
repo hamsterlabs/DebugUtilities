@@ -23,18 +23,16 @@ namespace HamsterLabs.DebugUtilities
             vector = OutputVector.Debug;
         }
 
-        public DataSetDumper(DataSet d)
-        {
-            vector = OutputVector.Debug;
-            this.ds = new DataSet();
-            ds.DataSetName = d.DataSetName;
-            foreach(DataTable dt in ds.Tables)
-            {
-                ds.Tables.Add(dt.Copy());
-            }
-        }
-
-        #region System.Diagnosistics.Debug.WriteLine 
+        //public DataSetDumper(DataSet d)
+        //{
+        //    vector = OutputVector.Debug;
+        //    this.ds = new DataSet();
+        //    ds.DataSetName = d.DataSetName;
+        //    foreach(DataTable dt in ds.Tables)
+        //    {
+        //        ds.Tables.Add(dt.Copy());
+        //    }
+        //}
 
         public static void dump(DataSet d)
         {
@@ -61,8 +59,6 @@ namespace HamsterLabs.DebugUtilities
         {
             dump(v.ToTable());
         }
-
-        #endregion
 
         public static void Print(string s)
         {
