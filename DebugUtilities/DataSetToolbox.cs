@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.IO;
 
-namespace DataSetDumper
+namespace HamsterLabs.DebugUtilities
 {
     class DataSetToolbox
     {
@@ -62,7 +62,7 @@ namespace DataSetDumper
                             StringBuilder sb = new StringBuilder();
                             foreach (DataColumn dc in dt.Columns)
                             {
-                                sb.Append(DataSetDumper.FormatCSV(dr[dc.ColumnName].ToString()) + ",");
+                                sb.Append(dr[dc.ColumnName].ToString() + ",");
                             }
                             sb.Remove(sb.Length - 1, 1);
                             writer.WriteLine(sb.ToString());
@@ -133,43 +133,43 @@ namespace DataSetDumper
                 dumpDataTable(dt);
             }
 
-            public static string FormatCSV(string input)
-            {
-                try
-                {
-                    if (input == null)
-                        return string.Empty;
+            //public static string FormatCSV(string input)
+            //{
+            //    try
+            //    {
+            //        if (input == null)
+            //            return string.Empty;
 
-                    bool containsQuote = false;
-                    bool containsComma = false;
-                    int len = input.Length;
-                    for (int i = 0; i < len && (containsComma == false || containsQuote == false); i++)
-                    {
-                        char ch = input[i];
-                        if (ch == '"')
-                            containsQuote = true;
-                        if (ch == (char)39)
-                            containsQuote = true;
-                        else if (ch == ',')
-                            containsComma = true;
-                        else if (ch == '`')
-                            containsQuote = true;
+            //        bool containsQuote = false;
+            //        bool containsComma = false;
+            //        int len = input.Length;
+            //        for (int i = 0; i < len && (containsComma == false || containsQuote == false); i++)
+            //        {
+            //            char ch = input[i];
+            //            if (ch == '"')
+            //                containsQuote = true;
+            //            if (ch == (char)39)
+            //                containsQuote = true;
+            //            else if (ch == ',')
+            //                containsComma = true;
+            //            else if (ch == '`')
+            //                containsQuote = true;
 
-                    }
+            //        }
 
-                    if (containsQuote && containsComma)
-                        input = input.Replace("\"", "\"\"");
+            //        if (containsQuote && containsComma)
+            //            input = input.Replace("\"", "\"\"");
 
-                    if (containsComma)
-                        return "\"" + input + "\"";
-                    else
-                        return input;
-                }
-                catch
-                {
-                    throw;
-                }
-            }
+            //        if (containsComma)
+            //            return "\"" + input + "\"";
+            //        else
+            //            return input;
+            //    }
+            //    catch
+            //    {
+            //        throw;
+            //    }
+            //}
         }
     }
 }

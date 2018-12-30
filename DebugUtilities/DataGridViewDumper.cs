@@ -21,5 +21,18 @@ namespace HamsterLabs.DebugUtilities
                 System.Diagnostics.Debug.WriteLine(String.Format("{0} {1}: {2}", c.ToString(), c.OwningColumn.HeaderText, c.FormattedValue.ToString()));
             }
         }
+
+
+        public static void dump(DataGridViewRow row)
+        {
+            //if (row.Tag != null)
+            //System.Diagnostics.Debug.WriteLine(String.Format("Tag: {0}", row.Tag));
+
+            foreach (DataGridViewCell c in row.Cells)
+            {
+
+                System.Diagnostics.Debug.WriteLine(String.Format("{0} {1}: {2}", c.ToString(), c.OwningColumn.HeaderText, c.FormattedValue.ToString()));
+            }
+        }
     }
 }

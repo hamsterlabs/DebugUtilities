@@ -16,6 +16,7 @@ namespace HamsterLabs.DebugUtilities
         public enum OutputVector { Debug = 1, Console = 2 };
 
         private DataSet ds;
+        private List<string> ColumnNames = new List<string>();
 
         public DataSetDumper()
         {
@@ -23,18 +24,27 @@ namespace HamsterLabs.DebugUtilities
             vector = OutputVector.Debug;
         }
 
-        //public DataSetDumper(DataSet d)
-        //{
-        //    vector = OutputVector.Debug;
-        //    this.ds = new DataSet();
-        //    ds.DataSetName = d.DataSetName;
-        //    foreach(DataTable dt in ds.Tables)
-        //    {
-        //        ds.Tables.Add(dt.Copy());
-        //    }
-        //}
+        public DataSetDumper(DataSet d)
+        {
+            this.ds = d.Copy();
+        }
 
-        public static void dump(DataSet d)
+        public DataSetDumper(DataTable d)
+        {
+            ds.Tables.Add(d.Copy());
+        }
+
+        public DataSetDumper(DataView d)
+        {
+            ds.Tables.Add(d.ToTable().Copy());
+        }
+
+        public void dump()
+        {
+            dump(this.ds);
+        }
+
+        public void dump(DataSet d)
         {
             for(int i = 0; i < d.Tables.Count; i++)
             {
@@ -42,22 +52,70 @@ namespace HamsterLabs.DebugUtilities
             }
         }
 
-        public static void dump(DataSet d, int table = 0)
+        public void dump(DataSet d, int table = 0)
         {
             Print(String.Format("# {0}", d.DataSetName));
             dump(d.Tables[table]);
             
         }
 
-        public static void dump(DataTable t)
+        public void dump(DataTable t)
         {
             Print(String.Format("# {0}", t.TableName));
-            
+
+            List<string> line = new List<string>();
+            string cols = getColumnNames(t);
+            Print(cols);
+
+            foreach (DataRow row in t.Rows)
+            {
+                dump(row);
+            }
         }
 
-        public static void dump(DataView v)
+        public string getColumnNames(DataTable t)
+        {
+            ColumnNames.Clear();
+            foreach (DataColumn col in t.Columns)
+            {
+                ColumnNames.Add(col.ColumnName);
+            }
+            return string.Join<string>(",", ColumnNames);
+        }
+
+        public void dump(DataRow row)
+        {
+            if (row.RowState != DataRowState.Deleted)
+            {
+                List<string> foo = new List<string>();
+                for (int i = 0; i < row.ItemArray.Length; i++)
+                {
+                    foo.Add(String.Format("{0}", row[i].ToString()));
+                }
+
+                Print(string.Join<string>(",", foo));
+                foo.Clear();
+            }
+        }
+
+        public void dump(DataView v)
         {
             dump(v.ToTable());
+        }
+
+
+        public static void Print()
+        {
+            switch (vector)
+            {
+                case OutputVector.Console:
+                    Console.WriteLine();
+                    break;
+                case OutputVector.Debug:
+                    System.Diagnostics.Debug.WriteLine(Environment.NewLine);
+                    break;
+
+            }
         }
 
         public static void Print(string s)
@@ -65,6 +123,7 @@ namespace HamsterLabs.DebugUtilities
             switch (vector)
             {
                 case OutputVector.Console:
+                    Console.WriteLine(s);
                     break;
                 default:
                     System.Diagnostics.Debug.WriteLine(s);
